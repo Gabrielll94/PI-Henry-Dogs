@@ -1,21 +1,17 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Home from "./Views/Home/Home";
-import Landing from "./Views/Landing/Landing";
-import Form from "./Views/Form/Form";
-import Details from "./Views/Details/Details";
-import NavBar from "./Components/NavBar/NavBar";
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Home from './Components/Home/Home'
+import LandingContainer from "./Components/Landing/landing"
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
 
   return (
       <div>
         <BrowserRouter>
-        <NavBar />
         <Routes>
-          <Route path="/" Component={Landing}/>
+          <Route path="/" Component={LandingContainer}/>
           <Route path="/home" Component={Home}/>
-          <Route path="/details:id" Component={Details}/>
-          <Route path="/form" Component={Form}/>
         </Routes>
         </BrowserRouter>
       </div>

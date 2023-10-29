@@ -1,6 +1,7 @@
 const axios = require("axios")
 const app = require('express').Router()
 const { Dog, Temperament } = require('../db');
+const { json } = require("body-parser");
 
 // Obtiene un arreglo de objetos, donde cada objeto es la raza de un perro.
 app.get('/dogs', async (req, res) => {
@@ -79,4 +80,45 @@ app.get('/dogs/name', async (req, res) => {
         console.log(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-})
+});
+
+// Esta ruta recibirá todos los datos necesarios para crear un nuevo perro y relacionarlo con los temperamentos asociados.
+app.post('dogs', async (req, res) => {
+    const { breed, temperaments } = req.body;
+    try {
+        const newDog = await db.Dog.create({ breed });
+        const dogTemperament = await db.Temperament.findAll({where: {name: temperaments }});
+        await newDog.setTemperaments(dogTemperament);
+        res.status(201),json({ message: 'Dog create succesfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+// Obtiene todos los temperamentos existentes
+app.get('/temperaments', async (req, res) => {
+    try{
+        const response = await axios.get('https://api.thedogapi.com/v1/breeds');
+        const breeds = response.data;
+        const tempSet = new Set();
+
+        breeds.forEach(breed => {
+        if(breed.temperament) {
+            const temperamentList = breed.temperament.split(',').map(temp => temp.trim());
+            temperamentList.forEach(temp => tempSet.add(temp));
+        }
+        });
+        const temperaments = Array.from(tempSet);
+
+        for (const temperament of temperaments) {
+            await db.Temperament.findOrCreate({ where: { name: temperament } });
+        }
+        res.json({ message: 'Temperaments saved successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+        }
+    });
+
+    module.exports = app;
