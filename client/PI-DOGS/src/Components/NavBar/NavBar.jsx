@@ -1,38 +1,35 @@
-import React from "react"
-import SearchForm from "./SearchForm"
-import { Link } from "react-router-dom"
-import Logo from "./Logo"
-import styles from "./NavBar.module.css"
-//redux
-import { clearDogs } from "../redux/dogSlice"
-import { clearTemperaments } from "../redux/temperamentSlice"
-import { useDispatch } from "react-redux"
+import React, { Fragment } from "react";
+import Logo from "../../assets/logoOG.png";
+import styles from "./NavBar.module.css";
+import { Link } from "react-router-dom";
+import SearchBar from "../SearchBar/SearchBar";
 
-function NavBar({ search }) {
-	const dispatch = useDispatch()
-	const handleLogOut = () => {
-		dispatch(clearTemperaments())
-		dispatch(clearDogs())
-	}
-
-	return (
-		<Navigation>
-			<Logo />
-
-			{search && (
-				<>
-					<SearchForm />
-					<NavLink to='/newBreed'>
-						Create your Breed
-					</NavLink>
-				</>
-			)}
-
-			<NavLink to='/' onClick={handleLogOut}>
-				Landing Page
-			</NavLink>
-		</Navigation>
-	)
+export default function NavBar() {
+return (
+    <Fragment>
+<div className={styles.nav}>
+<div className={styles.TitleAndSearchBar}>
+        <div className={styles.logoAndTitle}>
+<Link to="/home">
+            <img
+id="logoHenry"
+src={Logo}
+alt="a happy dog icon"
+className={styles.logo}
+            />
+</Link>
+<div>
+            <h1>The dog's World</h1>
+</div>
+        </div>
+        <div>
+<SearchBar />
+        </div>
+</div>
+        <div className={styles.aboutNavButton}>
+<Link to="/about">About</Link>
+        </div>
+</div>
+    </Fragment>
+);
 }
-
-export default NavBar

@@ -1,0 +1,40 @@
+.Card {
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	&:hover {
+		transform: scale(1.025);
+	}
+	a:link,
+	a:visited,
+	a:active {
+		text-decoration: none;
+		color: inherit;
+	}
+	.card {
+		width: 250px;
+		.card-header img {
+			object-fit: cover;
+			object-position: top;
+		}
+		.card-body {
+			justify-content: center;
+			align-items: flex-start;
+			h4 {
+				margin: 0 0 5px;
+			}
+			p {
+				font-family: "Roboto";
+				color: #555;
+			}
+		}
+		.bottom {
+			width: 100%;
+			background-color: #6dc264;
+			display: inline-flex;
+			& span {
+				font-size: 12px;
+				margin: 0;
+			}
+		}
+	}
+}

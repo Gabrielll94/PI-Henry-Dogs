@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../Landing/Landing.module.css";
 import { useState } from "react"
+import { Link } from "react-router-dom";
 
 function LandingContainer() {
 	const [ruta, setRuta] = useState("/")
@@ -11,9 +12,14 @@ function LandingContainer() {
         <div className={`${styles.LandingContainer}`}>
             <div className={`${styles.Intro}`}>
             <h1>Welcome to Dog's World</h1>
-            <div className={`${styles.LaunchBottom}`}  onClick={handleClick}>
-						<span>START</span>
-					</div>
+            <Link to="/home">
+                <button className={`${styles.Home}`}  onClick={handleClick}>
+						Home</button>
+					</Link>
+                    <Link to="/about">
+                <button className={`${styles.AboutBottom}`}  onClick={handleClick}>
+						About me</button>
+					</Link>
 					</div>
             </div>
     )}
