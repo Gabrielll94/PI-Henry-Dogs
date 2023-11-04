@@ -1,27 +1,25 @@
-import React from "react";
-import styles from "../Landing/Landing.module.css";
-import { useState } from "react"
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Link } from 'react-router-dom';
+import Dog from "../../assets/perro.jpg"
+import styles from '../Landing/Landing.module.css'
 
-function LandingContainer() {
-	const [ruta, setRuta] = useState("/")
-	const handleClick = () => {
-		setRuta("/breeds")
-	}
-    return (
-        <div className={`${styles.LandingContainer}`}>
-            <div className={`${styles.Intro}`}>
-            <h1>Welcome to Dog's World</h1>
-            <Link to="/home">
-                <button className={`${styles.Home}`}  onClick={handleClick}>
-						Home</button>
-					</Link>
-                    <Link to="/about">
-                <button className={`${styles.AboutBottom}`}  onClick={handleClick}>
-						About me</button>
-					</Link>
-					</div>
+function LandingContainer(){
+    return(
+        <Fragment>
+            <div className={styles.hero}>
+                <h1 className={styles.title}>Welcome to Dog's World</h1>
+                <Link to='/home'>
+                    <button className={styles.bubblyButton}>Home</button>
+                </Link>
+                <div className={styles.imageDiv}>
+                    <img src={Dog} alt="image" />
+                </div>
+                <Link to='/about'>
+                    <button className={styles.bubblyButton}>About</button>
+                </Link>
             </div>
-    )}
+        </Fragment>
+    )
+}
 
     export default LandingContainer;

@@ -1,20 +1,20 @@
-.searchbar_container{
-    width: 200%;
-}
+.searchBarObject {
+    margin: 15px;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
 
-.searchbar{
-    height: 100%;
-    border: 1px solid #25b687;
-    border-top: none;
-    border-top-left-radius: 10px;
-}
+    .input{
+    border-radius: 15px;
+    margin: 5px;
+    padding: 2px;
+    line-height: 2.05;
+    }
 
-.searchbar_button{
-    border-radius: 0;
-    background-color: #25b687;
-    border-top-right-radius: 10px;
-}
-
-.searchbar_button i{
-    font-size: 1.3rem;
-}
+    button{
+    margin: 5px;
+    padding: 2px;
+    border-radius: 15px;
+    }

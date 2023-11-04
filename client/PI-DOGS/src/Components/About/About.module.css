@@ -6,6 +6,35 @@
     font-weight: 300;
     font-size: 25px;
 }
+
+.button_home{
+    font-size: 1.1rem; 
+    background: none;
+    z-index: 100;
+    border: 0.1rem solid white;
+    color: #25b687;
+    }
+    
+    .button_home:hover{
+    color: white;
+    }
+    
+    .button_home::before,
+    .button_home::after{
+    top: 0;
+    background-color: #25b687;
+    height: 100%;
+    z-index: -10;
+    }
+    
+    .button_home::before{ transform: rotateY(90deg); }
+    
+    .button_home::after{ transform: rotateX(90deg); }
+    
+    .button_home:hover::before,
+    .button_home:hover::after{ 
+    transform: rotate(0);
+    }
 .imageDiv{
     display: flex;
     flex-direction: row;

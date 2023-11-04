@@ -1,35 +1,35 @@
 import React, { Fragment } from "react";
-import Logo from "../../assets/logoOG.png";
-import styles from "./NavBar.module.css";
+import Logo from "../../assets/LogoOG.png";
+import styles from "../NavBar/NavBar.module.css";
 import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 
 export default function NavBar() {
-return (
+    return (
     <Fragment>
-<div className={styles.nav}>
-<div className={styles.TitleAndSearchBar}>
+    <div className={styles.nav}>
+    <div className={styles.TitleAndSearchBar}>
         <div className={styles.logoAndTitle}>
-<Link to="/home">
+    <Link to="/home">
             <img
-id="logoHenry"
-src={Logo}
-alt="a happy dog icon"
-className={styles.logo}
+    id="logoHenry"
+    src={Logo}
+    alt="a happy dog icon"
+    className={styles.logo}
             />
-</Link>
-<div>
+    </Link>
+    <div>
             <h1>The dog's World</h1>
-</div>
+    </div>
         </div>
         <div>
-<SearchBar />
+    <SearchBar />
         </div>
-</div>
+    </div>
         <div className={styles.aboutNavButton}>
-<Link to="/about">About</Link>
+    <Link to="/about">About</Link>
         </div>
-</div>
+    </div>
     </Fragment>
-);
+    );
 }
