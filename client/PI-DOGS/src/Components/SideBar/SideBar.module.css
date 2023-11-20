@@ -1,17 +1,12 @@
 .side {
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(18, 42, 41);
-    color: #fff;
-    top: 5%;
-    left: 2%;
-    margin: 100px 5px;
-    margin-left: 3%;
-    padding: 10px;
-    border-radius: 12px;
-    min-width: 200px;
-    height: fit-content;
-    position: fixed;
+    width: 200px; 
+  height: 100%; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(18, 42, 41);
+  padding: 20px;
+  box-sizing: border-box;
     }
 
     .sideBarHeader {

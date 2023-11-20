@@ -1,10 +1,10 @@
 .mainConteinerAbout{
     margin-top: 120px;
-    margin-left: 20%;
-    margin-right: 10%;
+    margin-left: 18%;
+    margin-right: 13%;
     max-width: 75%;
-    font-weight: 300;
-    font-size: 25px;
+    font-weight: 298;
+    font-size: 28px;
 }
 
 .button_home{
@@ -12,7 +12,7 @@
     background: none;
     z-index: 100;
     border: 0.1rem solid white;
-    color: #25b687;
+    color: #2ebe91;
     }
     
     .button_home:hover{
@@ -22,7 +22,7 @@
     .button_home::before,
     .button_home::after{
     top: 0;
-    background-color: #25b687;
+    background-color: #2ebe91;
     height: 100%;
     z-index: -10;
     }

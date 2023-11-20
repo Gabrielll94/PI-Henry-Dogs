@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import { React, Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -11,24 +11,33 @@ import {
   getDogsByBreed,
   filterDogsByMAXWeight,
   filterDogsByMINWeight,
-  orderByWeight,
+  orderByWeight
 } from "../../Redux/Actions/index";
-import styles from "../SideBar/SideBar.module.css";
+import styles from "./SideBar.module.css";
 
 export default function SideBar() {
   const dispatch = useDispatch();
-  const temperaments = useSelector((state) => state.temperaments);
+  const temperaments = useSelector((state) => state.temperaments).sort(
+    function (a, b) {
+      if (a < b) return -1;
+      else return 1;
+    }
+  );
   const allDogs = useSelector((state) => state.allDogs);
   const breeds = useSelector((state) => state.breeds);
-
+  
   const minWeights = allDogs
-    ? allDogs.map((el) => el.weight_min).sort((a, b) => a - b)
-    : [];
+    .map((el) => el.weight_min)
+    .sort(function (a, b) {
+      return a - b;
+    });
   const allDogsMinWeights = [...new Set(minWeights)];
-
+  
   const maxWeights = allDogs
-    ? allDogs.map((el) => el.weight_max).sort((a, b) => a - b)
-    : [];
+    .map((el) => el.weight_max)
+    .sort(function (a, b) {
+      return a - b;
+    });
   const allDogsMaxWeights = [...new Set(maxWeights)];
 
   useEffect(() => {
@@ -41,41 +50,34 @@ export default function SideBar() {
     e.preventDefault();
     dispatch(getDogs());
   }
-
+  
   function handleClickOrder(e) {
     e.preventDefault();
     dispatch(orderByName(e.target.value));
   }
-
   function handleClickOrderWeight(e) {
     e.preventDefault();
     dispatch(orderByWeight(e.target.value));
   }
-
   function handleFilterCreated(e) {
     dispatch(filterCreated(e.target.value));
   }
-
   function handleFilteredByTemp(e) {
     e.preventDefault();
     dispatch(filterDogsByTemperament(e.target.value));
   }
-
   function handleFilteredByBreed(e) {
     e.preventDefault();
     dispatch(getDogsByBreed(e.target.value));
   }
-
   function handleFilteredMAXWeight(e) {
     e.preventDefault();
     dispatch(filterDogsByMAXWeight(e.target.value));
   }
-
   function handleFilteredMINWeight(e) {
     e.preventDefault();
     dispatch(filterDogsByMINWeight(e.target.value));
   }
-
   return (
     <Fragment>
       <div className={styles.side}>
@@ -137,68 +139,62 @@ export default function SideBar() {
           <h5 className={styles.filterHeader}>Filter by temperament</h5>
           <select onChange={(e) => handleFilteredByTemp(e)}>
             <option value="all">All Temperaments</option>
-            {temperaments
-              ? temperaments.map((temp) => (
-                  <option value={temp} key={temp}>
-                    {temp}
-                  </option>
-                ))
-              : null}
+            {temperaments.map((temp) => {
+              return (
+                <option value={temp} key={temp}>
+                  {temp}
+                </option>
+              );
+            })}
           </select>
         </div>
         <div className={styles.filterSection}>
           <h5 className={styles.filterHeader}>Filter by breed</h5>
           <select onChange={(e) => handleFilteredByBreed(e)}>
             <option value="all">All Breeds</option>
-            {breeds
-              ? breeds.map((breed) =>
-                  breed ? (
-                    <option value={breed} key={breed}>
-                      {breed}
-                    </option>
-                  ) : null
-                )
-              : null}
+            {breeds.map((breed) => {
+              return breed ? (
+                <option value={breed} key={breed}>
+                  {breed}
+                </option>
+              ) : (
+                ""
+              );
+            })}
           </select>
         </div>
         <div className={styles.filterSection}>
           <h5 className={styles.filterHeader}>Filter by max weight</h5>
           <select onChange={(e) => handleFilteredMAXWeight(e)}>
             <option value="all">All Weights</option>
-            {allDogsMaxWeights.map((maxWeight) =>
-              maxWeight ? (
+            {allDogsMaxWeights.map((maxWeight) => {
+              return maxWeight ? (
                 <option value={maxWeight} key={maxWeight}>
                   {maxWeight} kg
                 </option>
-              ) : null
-            )}
+              ) : (
+                ""
+              );
+            })}
           </select>
         </div>
         <div className={styles.filterSection}>
           <h5 className={styles.filterHeader}>Filter by min weight</h5>
           <select onChange={(e) => handleFilteredMINWeight(e)}>
             <option value="all">All Weights</option>
-            {allDogsMinWeights.map((minWeight) =>
-              minWeight ? (
+            {allDogsMinWeights.map((minWeight) => {
+              return minWeight ? (
                 <option value={minWeight} key={minWeight}>
                   {minWeight} kg
                 </option>
-              ) : null
-            )}
+              ) : (
+                ""
+              );
+            })}
           </select>
-        </div>
-        <div className={styles.filterSection}>
-          <h5 className={styles.filterHeader}>Add a Dog</h5>
-          <div className={styles.addDog}>
-            <Link to="/newDog/" className={styles.tooltip}>
-              <span className="material-icons">add_circle</span>
-              <span className={styles.tooltiptext}>
-                Add your Dog 🐕🐕🐕🐕
-              </span>
-            </Link>
-          </div>
         </div>
       </div>
     </Fragment>
   );
 }
+

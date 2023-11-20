@@ -4,17 +4,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    }
-
-    .input{
+  }
+  
+  .input{
     border-radius: 15px;
     margin: 5px;
     padding: 2px;
     line-height: 2.05;
-    }
-
-    button{
+  }
+  
+  button{
     margin: 5px;
     padding: 2px;
     border-radius: 15px;
-    }
+  }

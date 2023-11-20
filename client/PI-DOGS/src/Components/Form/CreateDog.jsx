@@ -1,10 +1,17 @@
+//Biblioteca principal para crear componentes de interfaz de usuario en React.
+// useState: gestiona el estado en componentes funcionales.
+// useEffect: manejo de efectos secundarios en componentes funcionales.
+// Fragment: una sintaxis ligera para agrupar varios elementos sin agregar nodos adicionales al DOM.
 import React, { useState, useEffect, Fragment } from "react";
+// useDispatch: Hook para enviar acciones en Redux.
+// useSelector: extrae datos de la tienda Redux.
 import { useDispatch, useSelector } from "react-redux";
+// usado para navegación sin actualizar la página
 import { Link, useNavigate } from "react-router-dom";
 import { postDog, getTemperamentsList } from "../../Redux/Actions/index";
 import styles from "../Form/CreateDog.module.css";
 
-function validateForm(input) {
+function validateForm(input) { // comprueba varios campos de entrada y devuelve errores
   let errors = {};
 
   // NAME
@@ -16,7 +23,6 @@ function validateForm(input) {
 
   // WEIGHTS
   if (!input.weight_min) {
-    // weight min
     errors.weight_min = "Type a valid minimal weight number";
   } else if (!/\d{1,2}/gi.test(input.weight_min)) {
     errors.weight_min = "Weight must have min values. Example: '25'";
@@ -24,16 +30,15 @@ function validateForm(input) {
     errors.weight_min = "";
   }
   if (!input.weight_max) {
-    // weight max
     errors.weight_max = "Type a valid maxim weight number";
   } else if (!/\d{1,2}/gi.test(input.weight_max)) {
     errors.weight_max = "Weight must have max values. Example: '25'";
   } else {
     errors.weight_max = "";
   }
+
   // HEIGHTS
   if (!input.height_min) {
-    // height min
     errors.height_min = "Type a valid minimal height number";
   } else if (!/\d{1,2}/gi.test(input.height_min)) {
     errors.height_min = "Height must have min values. Example: '25'";
@@ -41,30 +46,30 @@ function validateForm(input) {
     errors.height_min = "";
   }
   if (!input.height_max) {
-    // height max
     errors.height_max = "Type a valid maxim height number";
   } else if (!/\d{1,2}/gi.test(input.height_max)) {
     errors.height_max = "Height must have max values. Example: '25'";
   } else {
     errors.height_max = "";
   }
+
   return errors;
 }
-
+// este componente es un formulario para crear un perro, con varios campos de entrada, validación y navegación mediante
+// React Router. Interactúa con Redux para realizar acciones relacionadas con la obtención de temperamentos y la
+// publicación de datos de perros. 
 function CreateDog() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const temperament = useSelector((state) => state.temperaments).sort(
-    function (a, b) {
-      if (a < b) return -1;
-      else return 1;
-    }
-  );;
-  const [errors, setErrors] = useState({});
+  const temperaments = useSelector((state) => state.temperaments) || [];
 
+  const sortedTemperaments = [...temperaments].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+
+
+  const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
     name: "",
-    image:"",
+    image: "",
     height_min: "",
     height_max: "",
     weight_min: "",
@@ -72,49 +77,44 @@ function CreateDog() {
     life_span: "",
     temperament: [],
   });
-
-  function handleChange(e) {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    });
-    setErrors(
-      validateForm({
-        ...input,
-        [e.target.name]: e.target.value,
-      })
-    );
-  }
+// Funciones para manejar cambios de entrada de formulario, selección de temperamento, eliminación de temperamento
+// y envío de formulario
+function handleChange(e) {
+  const { name, value } = e.target;
+  setInput((prevInput) => ({
+    ...prevInput,
+    [name]: value,
+  }));
+  setErrors((prevErrors) => ({
+    ...prevErrors,
+    [name]: validateForm({ ...input, [name]: value })[name],
+  }));
+}
 
   function handleSelect(e) {
-    setInput({
-      ...input,
-      temperament: [...input.temperament, e.target.value],
-    });
+    setInput((prevInput) => ({
+      ...prevInput,
+      temperament: [...prevInput.temperament, e.target.value],
+    }));
   }
 
-  function handleDelete(el) {
-    setInput({
-      ...input,
-      temperament: input.temperament.filter((temp) => temp !== el),
-    });
+  function handleDelete(el) { // maneja la eliminación de temperamentos seleccionados y actualiza el estado
+    setInput((prevInput) => ({
+      ...prevInput,
+      temperament: prevInput.temperament.filter((temp) => temp !== el),
+    }));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (
-      !errors.name &&
-      !errors.image &&
-      !errors.weight_min &&
-      !errors.height_min &&
-      !errors.weight_max &&
-      !errors.height_max
-    ) {
+    const formErrors = validateForm(input);
+
+    if (Object.values(formErrors).every((error) => error === "")) {
       alert("Your dog has been created successfully");
       dispatch(postDog(input));
       setInput({
         name: "",
-        image:"",
+        image: "",
         height_min: "",
         weight_min: "",
         height_max: "",
@@ -122,10 +122,10 @@ function CreateDog() {
         life_span: "",
         temperament: [],
       });
+      navigate("/home");
     } else {
-      return alert("Something went wrong. Please try again.");
+      alert("Something went wrong. Please check your inputs and try again.");
     }
-    navigate("/home");
   }
 
   useEffect(() => {
@@ -136,11 +136,11 @@ function CreateDog() {
     <Fragment>
       <div className={styles.mainContainerCreation}>
         <div>
-          <h2>Create your Woof</h2>
+          <h2>Create your Dog</h2>
         </div>
         <div className={styles.formContainer}>
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div className={styles.Section}>
+          <div className={styles.Section}>
               <label>Name:</label>
               <input
                 type="text"
@@ -234,14 +234,13 @@ function CreateDog() {
             <div className={styles.Section}>
               <label>Temperaments</label>
               <select onChange={(e) => handleSelect(e)} className={styles.styled_select}>
-                {temperament.map((temp) => {
-                  return (
-                    <option key={temp} name={temp}>
-                      {temp}
-                    </option>
-                  );
-                })}
-              </select>
+  {sortedTemperaments.map((temp) => (
+    <option key={temp} value={temp}>
+      {temp || 'default'}
+    </option>
+  ))}
+</select>
+
               <div className={styles.sidebar_box}>
                 <h4>You have selected that:</h4>
                 {input.temperament.map((el) => (
@@ -257,7 +256,7 @@ function CreateDog() {
                 <button className={styles.buttonCancel}>Cancel</button>
               </Link>
               <button className={styles.button} type="submit">
-                Creat 🐕
+                Create 🐕
               </button>
             </div>
           </form>
@@ -266,5 +265,4 @@ function CreateDog() {
     </Fragment>
   );
 }
-
-export default CreateDog
+export default CreateDog;

@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 
 function About() {
         return (
-<Fragment>
+<Fragment> {/*El componente está envuelto en un fragmento de React ( <elementos>) que se utiliza para agrupar varios
+         // elementos sin agregar un nodo adicional al DOM.*/}
 <NavBar />
 <div className={styles.mainConteinerAbout}>
-        <div className={styles.imageDiv}>
+        <div className={styles.imageDiv}> {/*//información como nombre, función y una breve descripción. */}
 <img src={myPhoto} alt="image" />
         </div>
         <h6>Developed by: Gabriel Olivares</h6>
@@ -34,7 +35,7 @@ function About() {
         <p>Soft skills: organized, responsible, committed and with a high capacity to solve problems.</p>
         <div className={styles.links}>
 <h6>Contact me:</h6>
-<div className={styles.linksItems}>
+ <div className={styles.linksItems}> {/*enlaces a los perfiles de GitHub y LinkedIn} */}
         <p>
 <a href="https://github.com/Gabrielll94" target='_blank' rel="noreferrer">GitHub</a>
         </p>

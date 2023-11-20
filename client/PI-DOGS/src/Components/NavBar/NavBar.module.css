@@ -16,8 +16,8 @@
     padding: 10px;
     width: 100%;
     z-index: 1;
-    position: fixed;
-    }
+    /* position: fixed; */
+    } 
 
     .logoAndTitle {
     display: flex;
@@ -36,6 +36,12 @@
     }
     .aboutNavButton {
     display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 20%;
+    }
+    .newDogNavButton {
+        display: flex;
     flex-direction: row;
     justify-content: left;
     width: 20%;
